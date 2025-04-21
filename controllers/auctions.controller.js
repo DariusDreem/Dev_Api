@@ -18,7 +18,7 @@ export const createAuctions = (req, res) => {
         })
     }
 
-    create({ titre, date, author, isRent })
+    create({ titre, description, file_id, initial_price, actual_price })
 
     res.status(201).json({
         success: true,
@@ -64,22 +64,72 @@ export const deleteAuctionById = (req, res) => {
     })
 }
 
-export const getAverageRating = (req, res) => {
-    const { id } = req.params
+export const getAuctionsByState = (req, res) => {
+    const { state } = req.params
 
-    const auction = getById(id)
+    const auctions = getAll().filter(auction => auction.state === state)
 
-    if (!auction) {
+    if (auctions.length === 0) {
         return res.status(404).json({
             success: false,
-            message: 'Auction not found',
+            message: 'No auctions found for this state',
         })
     }
 
-    const averageRating = auction.ratings.reduce((acc, rating) => acc + rating, 0) / auction.ratings.length
+    res.json({
+        success: true,
+        auctions,
+    })
+}
+
+export const getAuctionByPriceRange = (req, res) => {
+    const { minPrice, maxPrice } = req.query
+
+    if (!minPrice && !maxPrice) {
+        return res.status(400).json({
+            success: false,
+            message: 'Please provide at least one price range',
+        })
+    }
+
+    const auctions = getAll().filter(auction => {
+        if (minPrice && maxPrice) {
+            return auction.price >= minPrice && auction.price <= maxPrice
+        } else if (minPrice) {
+            return auction.price >= minPrice
+        } else if (maxPrice) {
+            return auction.price <= maxPrice
+        }
+    })
+
+    if (auctions.length === 0) {
+        return res.status(404).json({
+            success: false,
+            message: 'No auctions found for this price range',
+        })
+    }
 
     res.json({
         success: true,
-        averageRating,
+        auctions,
     })
 }
+
+export const AuctionBySellerId = (req, res) => {
+    const { sellerId } = req.params
+
+    const auctions = getAll().filter(auction => auction.seller_id === sellerId)
+
+    if (auctions.length === 0) {
+        return res.status(404).json({
+            success: false,
+            message: 'No auctions found for this seller',
+        })
+    }
+
+    res.json({
+        success: true,
+        auctions,
+    })
+}
+
