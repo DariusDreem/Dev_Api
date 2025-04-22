@@ -22,7 +22,3 @@ export const deleteById = (id) => {
         auctions.splice(index, 1)
     }
 }
-
-export const getAverageRating = () => {
-
-} 

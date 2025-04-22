@@ -9,9 +9,9 @@ export const getAllAuctions = (req, res) => {
 }
 
 export const createAuctions = (req, res) => {
-    const { id, titre, description, file_id, initial_price, actual_price,   } = req.body
-// to define start_bid_date, end_bid_date, created_at, updated_at, deleted_at, tag_id, seller_id, buyer_id, state_id
-    if (!titre || !date || !author) {
+    const { id, titre, description, file_id, initial_price, actual_price, } = req.body
+    // to define start_bid_date, end_bid_date, created_at, updated_at, deleted_at, tag_id, seller_id, buyer_id, state_id
+    if (!titre || !description || !file_id || !initial_price) {
         return res.status(400).json({
             success: false,
             message: 'Please provide all required fields',

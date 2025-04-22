@@ -1,0 +1,52 @@
+openapi: 3.0.0
+info:
+  title: OpenAPI Specification
+  version: 1.0.0
+  description: API documentation for the project.
+
+paths:
+  /auction:
+    get:
+      summary: Get auction details
+      description: Retrieve details of all auctions.
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    title:
+                      type: string
+                      example: "Auction Title"
+                    description:
+                      type: string
+                      example: "Description of the auction"
+                    start_time:
+                      type: string
+                      format: date-time
+                      example: "2023-10-01T00:00:00Z"
+                    end_time:
+                      type: string
+                      format: date-time
+                      example: "2023-10-02T00:00:00Z"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal server error"
+
+servers:
+  - url: "http://localhost:3000/v1"
+    description: Local server

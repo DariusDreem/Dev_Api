@@ -1,4 +1,4 @@
-import {getFiles, addFile, getFileById, deleteFileById} from '../services/files.services.js'
+import { getFiles, addFile, getFileByIdService, deleteFileByIdService } from '../services/files.services.js'
 
 export const getAllFiles = (req, res) => {
     res.json({
@@ -8,7 +8,7 @@ export const getAllFiles = (req, res) => {
 }
 
 export const createFile = (req, res) => {
-    const {id, content, content_type } = req.body
+    const { id, content, content_type } = req.body
 
     if (!content || !content_type) {
         return res.status(400).json({
@@ -17,7 +17,7 @@ export const createFile = (req, res) => {
         })
     }
 
-    addFile({content,content_type,})
+    addFile({ content, content_type, })
 
     res.status(201).json({
         success: true,
@@ -26,9 +26,10 @@ export const createFile = (req, res) => {
 }
 
 export const getFileById = (req, res) => {
+
     const { id } = req.params
 
-    const file = getFileById(id)
+    const file = getFileByIdService(id)
 
     if (!file) {
         return res.status(404).json({
@@ -41,12 +42,14 @@ export const getFileById = (req, res) => {
         success: true,
         file,
     })
+
+
 }
 
 export const deleteFileById = (req, res) => {
     const { id } = req.params
 
-    const file = getFileById(id)
+    const file = getFileByIdService(id)
 
     if (!file) {
         return res.status(404).json({
@@ -55,7 +58,7 @@ export const deleteFileById = (req, res) => {
         })
     }
 
-    deleteFileById(id)
+    deleteFileByIdService(id)
 
     res.json({
         success: true,

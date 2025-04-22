@@ -1,15 +1,17 @@
 import express from "express";
 import {
   getAllFiles,
-  createFiles,
+  createFile,
   getFileById,
   deleteFileById,
   getFilesbyContentType
 } from "../controllers/files.controller.js";
-const fileRouter = express.Router();
+const filesRouter = express.Router();
 
-fileRouter.get("/", getAllFiles);
-fileRouter.post("/", createFiles);
-fileRouter.get("/:id", getFileById);
-fileRouter.delete("/:id", deleteFileById);
-fileRouter.get("/:content_type", getFilesbyContentType);
+filesRouter.get("/", getAllFiles);
+filesRouter.post("/", createFile);
+filesRouter.get("/:id", getFileById);
+filesRouter.delete("/:id", deleteFileById);
+filesRouter.get("/:content_type", getFilesbyContentType);
+
+export default filesRouter;
